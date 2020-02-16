@@ -9,7 +9,7 @@ let
       }:
       mkDerivation {
         pname = "base32-lens";
-        version = "0.2.0";
+        version = "0.1.0.0";
         src = ./.;
         setupHaskellDepends = [ base Cabal cabal-doctest ];
         libraryHaskellDepends = [ base base32 bytestring lens text ];
