@@ -33,7 +33,7 @@ import Control.Lens
 
 import Data.Text (Text)
 import qualified Data.Text.Encoding.Base32 as B32T
-import qualified Data.Text.Encoding.Base32.URL as B32TH
+import qualified Data.Text.Encoding.Base32.Hex as B32TH
 
 
 -- $setup
@@ -102,8 +102,8 @@ _Base32Hex = prism' B32TH.encodeBase32 $ \s -> case B32TH.decodeBase32 s of
 -- >>> _Base32HexUnpadded # "Sun"
 -- "ADQMS"
 --
--- >>> "PDw_Pz4-" ^? _Base32HexUnpadded
--- Just "ADQMS==="
+-- >>> "ADQMS" ^? _Base32HexUnpadded
+-- Just "Sun"
 --
 _Base32HexUnpadded :: Prism' Text Text
 _Base32HexUnpadded = prism' B32TH.encodeBase32Unpadded $ \s -> case B32TH.decodeBase32Unpadded s of
