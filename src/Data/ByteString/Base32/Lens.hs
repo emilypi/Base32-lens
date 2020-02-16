@@ -101,7 +101,7 @@ _Base32Hex = prism' B32H.encodeBase32' $ \s -> case B32H.decodeBase32 s of
 -- when assumptions about the data can be made. In particular, if the length of
 -- the input is divisible by 3, then this is a safe function to call.
 --
--- >>> _Base32HexUnpadded # "<<??>>"
+-- >>> _Base32HexUnpadded # "Sun"
 -- "ADQMS"
 --
 -- >>> "ADQMS" ^? _Base32HexUnpadded
