@@ -11,12 +11,14 @@ The pattern synonyms provided in this library are:
 
 ```haskell
 pattern Base32 :: ByteString -> ByteString
-pattern Base32Url :: ByteString -> ByteString
-pattern Base32UrlUnpadded :: ByteString -> ByteString
+pattern Base32Unpadded :: ByteString -> ByteString
+pattern Base32Hex :: ByteString -> ByteString
+pattern Base32HexUnpadded :: ByteString -> ByteString
 
 -- and
 
 pattern Base32 :: Text -> Text
+pattern Base32Unpadded :: Text -> Text
 pattern Base32Url :: Text -> Text
 pattern Base32UrlUnpadded :: Text -> Text
 ```
@@ -31,14 +33,16 @@ These provide a convenient high level interface for passing Base32 encoded value
 
 ```haskell
 _Base32 :: Prism' ByteString ByteString
-_Base32Url :: Prism' ByteString ByteString
-_Base32UrlUnpadded :: Prism' ByteString ByteString
+_Base32Unpadded :: Prism' ByteString ByteString
+_Base32Hex :: Prism' ByteString ByteString
+_Base32HexUnpadded :: Prism' ByteString ByteString
 
 -- and
 
 _Base32 :: Prism' Text Text
-_Base32Url :: Prism' Text Text
-_Base32UrlUnpadded :: Prism' Text Text
+_Base32Unpadded :: Prism' Text Text
+_Base32Hex :: Prism' Text Text
+_Base32HexUnpadded :: Prism' Text Text
 ```
 
 If a particular structure has a `Lens` into some `Text` or `ByteString` value they might want to encode (or decode), then composing such a `Lens` with these `Prisms` yields an affine `Traversal`, resulting in a structure which has the focus of its `Lens` encoded as or decoded from Base32(-url).
