@@ -1,7 +1,7 @@
 cabal-version:       1.24
 
 name:                base32-lens
-version:             0.2.0
+version:             0.1.0.0
 synopsis:            Optics for the Base32 library
 description:
   Prisms and pattern synonyms for the Base32 library
