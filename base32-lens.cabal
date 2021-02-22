@@ -1,6 +1,6 @@
 cabal-version:      2.0
 name:               base32-lens
-version:            0.1.0.0
+version:            0.1.1.0
 synopsis:           Optics for the Base32 library
 description:        Prisms and pattern synonyms for the Base32 library
 homepage:           https://github.com/emilypi/base32-lens
@@ -11,7 +11,7 @@ author:             Emily Pillmore
 maintainer:         emilypi@cohomolo.gy
 copyright:          (c) 2020 Emily Pillmore
 category:           Data
-build-type:         Custom
+build-type:         Simple
 extra-source-files:
   CHANGELOG.md
   README.md
@@ -23,11 +23,6 @@ source-repository head
   type:     git
   location: https://github.com/emilypi/base32-lens.git
 
-custom-setup
-  setup-depends:
-      base           >=4.10 && <5
-    , Cabal
-    , cabal-doctest
 
 library
   exposed-modules:
