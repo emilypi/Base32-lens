@@ -4,14 +4,13 @@ let
 
   inherit (nixpkgs) pkgs;
 
-  f = { mkDerivation, base, base32, bytestring, Cabal
-      , cabal-doctest, lens, lib, text, text-short
+  f = { mkDerivation, base, base32, bytestring, lens, lib, text
+      , text-short
       }:
       mkDerivation {
         pname = "base32-lens";
-        version = "0.1.0.0";
+        version = "0.1.1.0";
         src = ./.;
-        setupHaskellDepends = [ base Cabal cabal-doctest ];
         libraryHaskellDepends = [
           base base32 bytestring lens text text-short
         ];
