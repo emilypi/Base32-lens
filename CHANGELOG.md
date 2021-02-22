@@ -1,5 +1,9 @@
 # Revision history for base64-lens
 
+## 0.1.1.1
+
+* Missed bumping Lazy bytestring module to `Safe` when using `lens-5`
+
 ## 0.1.1.0
 
 * Add Short and Lazy optics modules for Text and ByteString
