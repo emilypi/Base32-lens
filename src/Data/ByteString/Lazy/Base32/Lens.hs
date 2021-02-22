@@ -1,6 +1,11 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE ViewPatterns #-}
+#if MIN_VERSION_lens(5,0,0)
+{-# LANGUAGE Safe #-}
+#else
 {-# LANGUAGE Trustworthy #-}
+#endif
 -- |
 -- Module       : Data.ByteString.Lazy.Base32.Lens
 -- Copyright 	: (c) 2019 Emily Pillmore
