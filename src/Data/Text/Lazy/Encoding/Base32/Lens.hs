@@ -1,19 +1,18 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE ViewPatterns #-}
-{-# LANGUAGE Trustworthy #-}
 -- |
--- Module       : Data.ByteString.Base32.Lens
--- Copyright 	: (c) 2019 Emily Pillmore
+-- Module       : Data.Text.Lazy.Encoding.Base32.Lens
+-- Copyright 	: (c) 2020 Emily Pillmore
 -- License	: BSD-style
 --
 -- Maintainer	: Emily Pillmore <emilypi@cohomolo.gy>
 -- Stability	: Experimental
 -- Portability	: non-portable
 --
--- This module contains 'Prism''s for Base32-encoding and
--- decoding 'ByteString' values.
+-- This module contains 'Prism's Base32-encoding and
+-- decoding 'Text' values.
 --
-module Data.ByteString.Base32.Lens
+module Data.Text.Lazy.Encoding.Base32.Lens
 ( -- * Prisms
   _Base32
 , _Base32Unpadded
@@ -30,27 +29,25 @@ module Data.ByteString.Base32.Lens
 -- , pattern Base32HexLenient
 ) where
 
-
 import Control.Lens
 
-import Data.ByteString (ByteString)
-import qualified Data.ByteString.Base32 as B32
-import qualified Data.ByteString.Base32.Hex as B32H
+import Data.Text.Lazy (Text)
+import qualified Data.Text.Lazy.Encoding.Base32 as B32TL
+import qualified Data.Text.Lazy.Encoding.Base32.Hex as B32TLH
 
 
 -- $setup
 --
 -- >>> import Control.Lens
--- >>> import Data.ByteString.Base32.Lens
+-- >>> import Data.Text.Lazy.Encoding.Base32.Lens
 --
 -- >>> :set -XOverloadedStrings
 -- >>> :set -XTypeApplications
 
-
 -- -------------------------------------------------------------------------- --
 -- Optics
 
--- | A 'Prism'' into the Base32 encoding of a 'ByteString' value
+-- | A 'Prism' into the Base32 encoding of a 'Text' value.
 --
 -- >>> _Base32 # "Sun"
 -- "KN2W4==="
@@ -58,13 +55,13 @@ import qualified Data.ByteString.Base32.Hex as B32H
 -- >>> "KN2W4===" ^? _Base32
 -- Just "Sun"
 --
-_Base32 :: Prism' ByteString ByteString
-_Base32 = prism' B32.encodeBase32' $ \s -> case B32.decodeBase32 s of
+_Base32 :: Prism' Text Text
+_Base32 = prism' B32TL.encodeBase32 $ \s -> case B32TL.decodeBase32 s of
     Left _ -> Nothing
     Right a -> Just a
 {-# INLINE _Base32 #-}
 
--- | A 'Prism'' into the Base32 encoding of a 'ByteString' value
+-- | A 'Prism' into the Base32 encoding of a 'Text' value.
 --
 -- Please note that unpadded variants should only be used
 -- when assumptions about the data can be made. In particular, if the length of
@@ -76,13 +73,13 @@ _Base32 = prism' B32.encodeBase32' $ \s -> case B32.decodeBase32 s of
 -- >>> "KN2W4" ^? _Base32Unpadded
 -- Just "Sun"
 --
-_Base32Unpadded :: Prism' ByteString ByteString
-_Base32Unpadded = prism' B32.encodeBase32Unpadded' $ \s -> case B32.decodeBase32Unpadded s of
+_Base32Unpadded :: Prism' Text Text
+_Base32Unpadded = prism' B32TL.encodeBase32Unpadded $ \s -> case B32TL.decodeBase32Unpadded s of
     Left _ -> Nothing
     Right a -> Just a
 {-# INLINE _Base32Unpadded #-}
 
--- | A 'Prism'' into the Base32hex encoding of a 'ByteString' value
+-- | A 'Prism' into the Base32-hex encoding of a 'Text' value.
 --
 -- >>> _Base32Hex # "Sun"
 -- "ADQMS==="
@@ -90,13 +87,13 @@ _Base32Unpadded = prism' B32.encodeBase32Unpadded' $ \s -> case B32.decodeBase32
 -- >>> "ADQMS===" ^? _Base32Hex
 -- Just "Sun"
 --
-_Base32Hex :: Prism' ByteString ByteString
-_Base32Hex = prism' B32H.encodeBase32' $ \s -> case B32H.decodeBase32 s of
+_Base32Hex :: Prism' Text Text
+_Base32Hex = prism' B32TLH.encodeBase32 $ \s -> case B32TLH.decodeBase32 s of
     Left _ -> Nothing
     Right a -> Just a
 {-# INLINE _Base32Hex #-}
 
--- | A 'Prism'' into the Base32hex encoding of a 'ByteString' value
+-- | A 'Prism' into the Base32-hex encoding of a 'Text' value.
 --
 -- Please note that unpadded variants should only be used
 -- when assumptions about the data can be made. In particular, if the length of
@@ -108,13 +105,13 @@ _Base32Hex = prism' B32H.encodeBase32' $ \s -> case B32H.decodeBase32 s of
 -- >>> "ADQMS" ^? _Base32HexUnpadded
 -- Just "Sun"
 --
-_Base32HexUnpadded :: Prism' ByteString ByteString
-_Base32HexUnpadded = prism' B32H.encodeBase32Unpadded' $ \s -> case B32H.decodeBase32Unpadded s of
+_Base32HexUnpadded :: Prism' Text Text
+_Base32HexUnpadded = prism' B32TLH.encodeBase32Unpadded $ \s -> case B32TLH.decodeBase32Unpadded s of
     Left _ -> Nothing
     Right a -> Just a
 {-# INLINE _Base32HexUnpadded #-}
 
--- -- | An 'Iso'' into the Base32 encoding of a 'ByteString' value
+-- -- | An 'Iso'' into the Base32 encoding of a 'Text' value
 -- -- using lenient decoding.
 -- --
 -- --
@@ -126,10 +123,10 @@ _Base32HexUnpadded = prism' B32H.encodeBase32Unpadded' $ \s -> case B32H.decodeB
 -- -- >>> "U3Vu" ^. from _Base32Lenient
 -- -- "Sun"
 -- --
--- _Base32Lenient :: Iso' ByteString ByteString
--- _Base32Lenient = iso B32.encodeBase32' B32.decodeBase32Lenient
+-- _Base32Lenient :: Iso' Text Text
+-- _Base32Lenient = iso B32TL.encodeBase32 B32TL.decodeBase32Lenient
 
--- -- | An 'Iso'' into the Base32hex encoding of a 'ByteString' value
+-- -- | An 'Iso'' into the Base32hex encoding of a 'Text' value
 -- -- using lenient decoding.
 -- --
 -- --
@@ -141,46 +138,46 @@ _Base32HexUnpadded = prism' B32H.encodeBase32Unpadded' $ \s -> case B32H.decodeB
 -- -- >>> "PDw_Pz4-" ^. from _Base32HexLenient
 -- -- "<<??>>"
 -- --
--- _Base32HexLenient :: Iso' ByteString ByteString
--- _Base32HexLenient = iso B32H.encodeBase32' B32H.decodeBase32Lenient
+-- _Base32HexLenient :: Iso' Text Text
+-- _Base32HexLenient = iso B32TLH.encodeBase32 B32TLH.decodeBase32Lenient
 
 -- -------------------------------------------------------------------------- --
 -- Patterns
 
--- | Bidirectional pattern synonym for Base32-encoded 'ByteString' values.
+-- | Unidirectional pattern synonym for Base32-encoded 'Text' values.
 --
-pattern Base32 :: ByteString -> ByteString
+pattern Base32 :: Text -> Text
 pattern Base32 a <- (preview _Base32 -> Just a) where
     Base32 a = _Base32 # a
 
--- | Bidirectional pattern synonym for unpadded Base32-encoded 'ByteString' values.
+-- | Unidirectional pattern synonym for unpadded Base32-encoded 'Text' values.
 --
-pattern Base32Unpadded :: ByteString -> ByteString
+pattern Base32Unpadded :: Text -> Text
 pattern Base32Unpadded a <- (preview _Base32Unpadded -> Just a) where
     Base32Unpadded a = _Base32Unpadded # a
 
--- | Bidirectional pattern synonym for Base32hex-encoded 'ByteString' values.
+-- | Unidirectional pattern synonym for Base32hex-encoded 'Text' values.
 --
-pattern Base32Hex :: ByteString -> ByteString
+pattern Base32Hex :: Text -> Text
 pattern Base32Hex a <- (preview _Base32Hex -> Just a) where
     Base32Hex a = _Base32Hex # a
 
--- | Bidirectional pattern synonym for unpadded Base32hex-encoded 'ByteString' values.
+-- | Unidirectional pattern synonym for unpadded Base32hex-encoded 'Text' values.
 --
-pattern Base32HexUnpadded :: ByteString -> ByteString
+pattern Base32HexUnpadded :: Text -> Text
 pattern Base32HexUnpadded a <- (preview _Base32HexUnpadded -> Just a) where
     Base32HexUnpadded a = _Base32HexUnpadded # a
 
--- -- | Bidirectional pattern synonym for leniently Base32-encoded 'ByteString' values
+-- -- | Bidirectional pattern synonym for leniently Base32-encoded 'Text' values
 -- --
--- pattern Base32Lenient :: ByteString -> ByteString
+-- pattern Base32Lenient :: Text -> Text
 -- pattern Base32Lenient a <- (view (from _Base32Lenient) -> a) where
 --     Base32Lenient a = view _Base32Lenient a
 -- {-# COMPLETE Base32Lenient #-}
 
--- -- | Bidirectional pattern synonym for leniently Base32-encoded 'ByteString' values
+-- -- | Bidirectional pattern synonym for leniently Base32-encoded 'Text' values
 -- --
--- pattern Base32HexLenient :: ByteString -> ByteString
+-- pattern Base32HexLenient :: Text -> Text
 -- pattern Base32HexLenient a <- (view (from _Base32HexLenient) -> a) where
 --     Base32HexLenient a = view _Base32HexLenient a
 -- {-# COMPLETE Base32HexLenient #-}

@@ -2,7 +2,7 @@
 {-# LANGUAGE ViewPatterns #-}
 {-# LANGUAGE Trustworthy #-}
 -- |
--- Module       : Data.ByteString.Base32.Lens
+-- Module       : Data.ByteString.Lazy.Base32.Lens
 -- Copyright 	: (c) 2019 Emily Pillmore
 -- License	: BSD-style
 --
@@ -13,7 +13,7 @@
 -- This module contains 'Prism''s for Base32-encoding and
 -- decoding 'ByteString' values.
 --
-module Data.ByteString.Base32.Lens
+module Data.ByteString.Lazy.Base32.Lens
 ( -- * Prisms
   _Base32
 , _Base32Unpadded
@@ -33,15 +33,15 @@ module Data.ByteString.Base32.Lens
 
 import Control.Lens
 
-import Data.ByteString (ByteString)
-import qualified Data.ByteString.Base32 as B32
-import qualified Data.ByteString.Base32.Hex as B32H
+import Data.ByteString.Lazy (ByteString)
+import qualified Data.ByteString.Lazy.Base32 as LB32
+import qualified Data.ByteString.Lazy.Base32.Hex as LB32H
 
 
 -- $setup
 --
 -- >>> import Control.Lens
--- >>> import Data.ByteString.Base32.Lens
+-- >>> import Data.ByteString.Lazy.Base32.Lens
 --
 -- >>> :set -XOverloadedStrings
 -- >>> :set -XTypeApplications
@@ -59,7 +59,7 @@ import qualified Data.ByteString.Base32.Hex as B32H
 -- Just "Sun"
 --
 _Base32 :: Prism' ByteString ByteString
-_Base32 = prism' B32.encodeBase32' $ \s -> case B32.decodeBase32 s of
+_Base32 = prism' LB32.encodeBase32' $ \s -> case LB32.decodeBase32 s of
     Left _ -> Nothing
     Right a -> Just a
 {-# INLINE _Base32 #-}
@@ -77,7 +77,7 @@ _Base32 = prism' B32.encodeBase32' $ \s -> case B32.decodeBase32 s of
 -- Just "Sun"
 --
 _Base32Unpadded :: Prism' ByteString ByteString
-_Base32Unpadded = prism' B32.encodeBase32Unpadded' $ \s -> case B32.decodeBase32Unpadded s of
+_Base32Unpadded = prism' LB32.encodeBase32Unpadded' $ \s -> case LB32.decodeBase32Unpadded s of
     Left _ -> Nothing
     Right a -> Just a
 {-# INLINE _Base32Unpadded #-}
@@ -91,7 +91,7 @@ _Base32Unpadded = prism' B32.encodeBase32Unpadded' $ \s -> case B32.decodeBase32
 -- Just "Sun"
 --
 _Base32Hex :: Prism' ByteString ByteString
-_Base32Hex = prism' B32H.encodeBase32' $ \s -> case B32H.decodeBase32 s of
+_Base32Hex = prism' LB32H.encodeBase32' $ \s -> case LB32H.decodeBase32 s of
     Left _ -> Nothing
     Right a -> Just a
 {-# INLINE _Base32Hex #-}
@@ -109,7 +109,7 @@ _Base32Hex = prism' B32H.encodeBase32' $ \s -> case B32H.decodeBase32 s of
 -- Just "Sun"
 --
 _Base32HexUnpadded :: Prism' ByteString ByteString
-_Base32HexUnpadded = prism' B32H.encodeBase32Unpadded' $ \s -> case B32H.decodeBase32Unpadded s of
+_Base32HexUnpadded = prism' LB32H.encodeBase32Unpadded' $ \s -> case LB32H.decodeBase32Unpadded s of
     Left _ -> Nothing
     Right a -> Just a
 {-# INLINE _Base32HexUnpadded #-}
@@ -127,7 +127,7 @@ _Base32HexUnpadded = prism' B32H.encodeBase32Unpadded' $ \s -> case B32H.decodeB
 -- -- "Sun"
 -- --
 -- _Base32Lenient :: Iso' ByteString ByteString
--- _Base32Lenient = iso B32.encodeBase32' B32.decodeBase32Lenient
+-- _Base32Lenient = iso LB32.encodeBase32' LB32.decodeBase32Lenient
 
 -- -- | An 'Iso'' into the Base32hex encoding of a 'ByteString' value
 -- -- using lenient decoding.
@@ -142,7 +142,7 @@ _Base32HexUnpadded = prism' B32H.encodeBase32Unpadded' $ \s -> case B32H.decodeB
 -- -- "<<??>>"
 -- --
 -- _Base32HexLenient :: Iso' ByteString ByteString
--- _Base32HexLenient = iso B32H.encodeBase32' B32H.decodeBase32Lenient
+-- _Base32HexLenient = iso LB32H.encodeBase32' LB32H.decodeBase32Lenient
 
 -- -------------------------------------------------------------------------- --
 -- Patterns
